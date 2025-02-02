@@ -1,0 +1,14 @@
+name: Push Event Notification
+
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send push notification
+        run: |
+          echo "New commit pushed to branch ${GITHUB_REF##*/}"
