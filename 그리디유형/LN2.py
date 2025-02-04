@@ -6,6 +6,7 @@ list.sort(reverse=True)
 first = list[0]
 second = list[1]
 
+# 수열을 만들어서 first의 값이 몇번 들어갈지 계산하는 방식
 count = 0   # first의 값이 몇번 들어갈지 체크
 count += m//(k+1) * k  
 count += m%(k+1)
