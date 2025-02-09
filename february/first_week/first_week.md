@@ -38,3 +38,43 @@ stdin.read 메서드들은 한 번에 읽어와 버퍼를 여러 번 사용하�
 
 ---
 
+# 🎯 1715. 카드 정렬하기
+## 💡 어려웠던 점
+문제 이해를 전반적으로 잘 못하는 것 같다... 비교하는 것 자체를 비용이라고 생각하고 비교할 때마다 비교한 횟수끼리 더해줘야 하는 문제이다.  
+이런 문제 유형이 처음이라 헷갈렸지만 지피티의 도움을 받아 힙이라는 것을 사용해 볼 것을 고려할 수 있었다.
+## 💡 배운 점
+1. 힙이란?
+  - 완전 이진 트리 기반의 자료구조
+  - 부모 노드의 값이 항상 자식 노드들의 값보다 크거나(Max Heap) 작아야(Min Heap) 한다.
+  - 즉, 최대 힙에서는 최댓값이 최상위 루트이고 최소 힙에서는 최솟값이 최상위 루트이다.
+  - 최댓값과 최솟값을 빠르게 찾을 수 있는 점이 장점이다. (시간복잡도 : O(NlogN))
+2. heapq
+  - Python의 모듈로, 이진 힙을 활용한 우선순위 큐 구현을 제공한다. 
+  - 최소 힙만 제공하므로 최대 힙을 만들려면 값을 -num으로 변환하여 저장하고 사용할 때 다시 -를 붙여야 한다.
+```python
+# 최대 힙 사용 예제
+
+import heapq
+
+heap = []
+heapq.heappush(heap, -5)
+heapq.heappush(heap, -2)
+heapq.heappush(heap, -9)
+heapq.heappush(heap, -1)
+heapq.heappush(heap, -3)
+
+print(-heapq.heappop(heap))  # 9
+print(-heapq.heappop(heap))  # 5
+print(-heapq.heappop(heap))  # 3
+print(-heapq.heappop(heap))  # 2
+print(-heapq.heappop(heap))  # 1
+
+# n개의 가장 작은/큰 값 찾기
+import heapq
+
+arr = [5, 2, 9, 1, 3, 6]
+
+print(heapq.nsmallest(3, arr))  # [1, 2, 3]
+print(heapq.nlargest(3, arr))  # [9, 6, 5]
+
+```
