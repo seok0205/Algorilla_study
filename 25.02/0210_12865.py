@@ -13,19 +13,20 @@ W : 물건의 무게(100,000 이하), V : 물건의 가치(1,000 이하)
 가치합의 최댓값
 """
 
-N, K = list(map(int, input().split()))
-inven = list()
-bag = {0: 0}
+N, K = map(int, input().split())
 
-for i in range(N):
-    W, V = list(map(int, input().split()))
-    inven.append([W, V])
+inven = []
+
+for _ in range(N):
+    inven.append(list(map(int, input().split())))
 
 inven.sort(reverse=True)
 
+bag = {0: 0}
+
 for weight, value in inven:
-    tmp = dict()
-    for bag_w, bag_v in bag.items():
+    tmp = {}
+    for bag_v, bag_w in bag.items():
         next_v = bag_v + value
         next_w = bag_w + weight
 
