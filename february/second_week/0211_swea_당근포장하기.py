@@ -6,110 +6,42 @@
 # 5. 각 상자의 개수 차이가 최소가 되는 것을 찾아야 함
 # 6. 포장할 수 없을 경우 -1 출력 / 포장할 수 있으면 차이값 출력
 
-# 8개 -> 1/1/6, 1/2/5, 1/3/4, 2/2/4, 2/3/3,
-# 11223 -> 1,1 / 2,2 / 3
-
-# TODO: 푸는 중~~~~
-
-def make_groups(num):
-    groups = []
-    for i in range(1, num - 2):
-        alpha = 0
-        for j in range(1, num - 1 - alpha):
-            group = [0, 0, 0]
-            group[0] = i
-            if 8 - i - j <= 0:
-                break
-            group[1] = j
-            group[2] = num - i - j
-            alpha += 1
-            groups.append(group)
-
-    idx = 0
-    while idx < len(groups):
-        if max(groups[idx]) > num // 2:
-            groups.pop(idx)
-            continue
-        idx += 1
-
-    return groups
-
-print(make_groups(8))
-
 T = int(input())
-for t in range(1, T+1):
-    N = int(input())
+for t in range(1, T + 1):
+    num_of_carrots = int(input())
     arr = list(map(int, input().split()))
+    carrots_info = {}
+    for size in arr:
+        if size not in carrots_info:
+            carrots_info[size] = 0
+        carrots_info[size] += 1
 
-    answer = 0
-    counts = [0 for _ in range(30)]
+    carrots_data = sorted([
+        {
+            "size": size,
+            "amount": amount
+        } for size, amount in carrots_info.items()
+    ], key=lambda x: x['size'])
 
-    for num in arr:
-        counts[num] += 1
-    print(counts)
-    max_duplicates = max(counts)
-    min_diff = N
-    groups = make_groups(N)
-    for group in groups:
-        a = group[0]
-        b = group[1]
-        c = group[2]
-        if max_duplicates not in (a, b, c):
-            answer = -1
-            break
-        else:
-            idx = 0
-            while a > 0:
-                if counts[idx] > 0:
-                    counts[idx] -= 1
-                    a -= 1
-                    continue
-                idx += 1
+    # print(carrots_data)
 
-            while b > 0:
-                if counts[idx] > 0:
-                    counts[idx] -= 1
-                    b -= 1
-                    continue
-                idx += 1
+    min_diff = None
 
-            while c > 0:
-                if counts[idx] > 0:
-                    counts[idx] -= 1
-                    c -= 1
-                    continue
-                idx += 1
+    for i in range(1, num_of_carrots - 1):
+        for j in range(1, num_of_carrots - i):
+            small = sum([carrot_data['amount'] for carrot_data in carrots_data[:i]])
+            # print("small : ", small)
+            medium = sum([carrot_data['amount'] for carrot_data in carrots_data[i:i+j]])
+            # print("medium : ", medium)
+            large = sum([carrot_data['amount'] for carrot_data in carrots_data[i+j:]])
+            # print("large : ", large)
 
-        if sum(counts) == 0:
-            answer = max(group) - min(group)
-            if answer < min_diff:
-                min_diff = answer
+            if max(small, medium, large) > num_of_carrots // 2:
+                continue
+            diff = max(small, medium, large) - min(small, medium, large)
+            if min_diff is None:
+                min_diff = diff
+            else:
+                min_diff = min(diff, min_diff)
 
-    print(f"#{t} {answer}")
-
-# groups = []
-# # arr = [1,2,3,4,5,6,7,8]
-# for i in range(1, 8-2):
-#     alpha = 0
-#     for j in range(1, 8-1-alpha):
-#         group = [0, 0, 0]
-#         group[0] = i
-#         if 8-i-j <= 0:
-#             break
-#         group[1] = j
-#         group[2] = 8-i-j
-#         # print(group)
-#         alpha += 1
-#         groups.append(group)
-#
-# idx = 0
-# while idx < len(groups):
-#     if max(groups[idx]) > 8 // 2:
-#         groups.pop(idx)
-#         continue
-#     idx += 1
-#
-# print(groups)
-
-
-
+    print(f"#{t}", min_diff if min_diff is not None else -1)
