@@ -15,6 +15,4 @@ for t in range(1, T+1):
             temp = 0
     result.sort()
     print(f'#{t} {result[-1] - result[0]}')
-
-
-
+    
