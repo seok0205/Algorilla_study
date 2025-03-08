@@ -24,45 +24,44 @@ N번 쏘기 가능, W: 가로, H: 세로
 from collections import deque
 import copy
 
-def execute(matrix):
+# 구슬을 떨어트릴 위치를 고르기 위해 모든 열을 탐색
+# 0 이상인 값을 가진 행*열 값을 찾아 큐에 추가
+def execute(matrix, depth):
     global min_remains
-    # min_remains = float('inf')
-    # curr_matrix = copy.deepcopy(matrix)
-    # candidates = find_where_to_shoot(curr_matrix)
-    # while candidates:
-    #     candidate_r, candidate_c, _ = candidates.pop()
-    #     curr_matrix = remove_bricks(candidate_r, candidate_c, curr_matrix)
-    #     curr_matrix = gravity(curr_matrix)
-    #     sub_remains = count_bricks(curr_matrix)
-    #     execute(curr_matrix)
-    #     min_remains = min(sub_remains, min_remains)
-    # return
 
-def find_where_to_shoot(matrix):
-    list = []
+    if depth == N:
+        sub_remains = count_bricks(matrix)
+        min_remains = min(min_remains, sub_remains)
+        return
 
+    for col in range(W): # 하나의 컬럼 선택 후 가장 위에 있는 값으로 아래 벽돌 부수기 진행
+        curr_matrix = remove_bricks(col, copy.deepcopy(matrix)) # 구슬 벽돌에 충돌 후 벽돌 부수기 + 주변 벽돌 부수기
+        curr_matrix = gravity(curr_matrix) # 부서진 후 생긴 공백 따라 밑으로 떨어트리기
+        execute(curr_matrix, depth + 1) # 같은 행위를 depth가 N이 될 때까지 반복
+
+
+def remove_bricks(col, curr_matrix):
+    # row = None
     for i in range(H):
-        for j in range(W):
-            if matrix[i][j] != 0:
-                list.append((i, j, matrix[i][j]))
-        if len(list) > 0:
-            list.sort(key=lambda x: x[2])
-            return list
+        if curr_matrix[i][col] > 0:
+            row = i
+            break
+    else:
+        return curr_matrix
 
-
-def remove_bricks(r, c, curr_matrix):
     Q = deque()
-    Q.append((r, c))
+    Q.append((row, col, curr_matrix[row][col]))
+    curr_matrix[row][col] = 0
+
     while Q:
-        curr_r, curr_c = Q.popleft()
-        distance = curr_matrix[curr_r][curr_c] - 1
-        curr_matrix[curr_r][curr_c] = 0
+        curr_r, curr_c, distance = Q.popleft()
         for di, dj in [[0, 1], [1, 0], [0, -1], [-1, 0]]:
             for d in range(1, distance):
                 next_r = curr_r + di * d
                 next_c = curr_c + dj * d
-                if 0 <= next_r < H and 0 <= next_c < W:
-                    Q.append((next_r, next_c))
+                if 0 <= next_r < H and 0 <= next_c < W and curr_matrix[next_r][next_c] > 0:
+                    Q.append((next_r, next_c, curr_matrix[next_r][next_c]))
+                    curr_matrix[next_r][next_c] = 0
     return curr_matrix
 
 def count_bricks(matrix):
@@ -74,10 +73,10 @@ def count_bricks(matrix):
     return count
 
 def gravity(matrix):
-    for j in range(4):
+    for j in range(W):
         i = 0
-        while 0 < i + 1 < 5:
-            if matrix[i][j] == 1 and matrix[i + 1][j] == 0:
+        while i + 1 < H:
+            if matrix[i][j] != 0 and matrix[i + 1][j] == 0:
                 matrix[i][j], matrix[i + 1][j] = matrix[i + 1][j], matrix[i][j]
                 i -= 1
                 if i < 0:
@@ -91,6 +90,5 @@ for t in range(1, T + 1):
     N, W, H = map(int, input().split())
     matrix = [list(map(int, input().split())) for _ in range(H)]
     min_remains = float('inf')
-    execute(matrix)
-    # answer = execute()
+    execute(matrix, 0)
     print(f"#{t} {min_remains}")
