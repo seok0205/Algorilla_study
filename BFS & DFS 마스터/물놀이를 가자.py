@@ -26,7 +26,6 @@ def bfs(arr, N, M):
         for j in range(M):
             if arr[i][j] == 'L':
                 count += visited[i][j] - 1
-    print(q)
     return count 
           
 T = int(input())
