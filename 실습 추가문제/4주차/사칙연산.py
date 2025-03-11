@@ -12,7 +12,7 @@ def post_order(i):
             elif tree[i] == '-':
                 tree[i] = tree[left[i]] - tree[right[i]]
             elif tree[i] == '/':
-                tree[i] = tree[left[i]] / tree[right[i]]  # 실수 연산
+                tree[i] = tree[left[i]] / tree[right[i]]
             elif tree[i] == '*':
                 tree[i] = tree[left[i]] * tree[right[i]]
 
@@ -39,3 +39,4 @@ for t in range(1, 1+T):
     result = int(tree[1])  # 정수로 변환하여 출력
 
     print(f'#{t} {result}')
+ 

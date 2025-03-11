@@ -13,7 +13,6 @@ def in_heap(N):
             c = p
             p = c // 2
 
-
 T = int(input())
 for t in range(1, T+1):
     # 정점의 수
@@ -24,7 +23,9 @@ for t in range(1, T+1):
     for i in range(N):
         in_heap(arr[i])
     result = 0
+    # 마지막 노드의 조상번호를 타고 올라감
     c = last // 2
+    # 더 이상 조상이 없으면 종료
     while c > 0:
         result += heap[c]
         c = c // 2
