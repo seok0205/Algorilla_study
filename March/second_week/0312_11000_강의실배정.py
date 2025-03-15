@@ -26,6 +26,6 @@ for i in range(1, N):
     if heap[0] <= time_table[i][0]:   # heap 에 있는 time table end 값과 time table에 있는 다음 값의 start 비교
         heapq.heappop(heap)
     heapq.heappush(heap, time_table[i][1])
-
+print(len(heap))
 
 
