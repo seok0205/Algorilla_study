@@ -26,7 +26,7 @@ def decimal_to_binary(decimal):
         else:
             binary += '0'
         decimal >>= 1
-    return binary
+    return binary[::-1]
 
 T = int(input())
 for t in range(1, T+1):

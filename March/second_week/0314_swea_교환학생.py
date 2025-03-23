@@ -1,33 +1,34 @@
 
 # 리스트로 구현
-# def find_attending_days(start_idx):
-#     global answer
-#
-#     count = 0
-#     times = 0
-#     idx = start_idx
-#     while True:
-#         if count == days:
-#             break
-#         if class_info[idx]:
-#             count += 1
-#         idx = (idx + 1) % 7
-#         times += 1
-#     answer = min(answer, times)
-#     return
-#
-#
-# T = int(input())
-# for t in range(1, T + 1):
-#     days = int(input())
-#     class_info = list(map(int, input().split()))
-#     answer = float('inf')
-#
-#     for i in range(7):
-#         if class_info[i]:
-#             find_attending_days(i)
-#
-#     print(f"#{t} {answer}")
+def find_attending_days(start_idx):
+    global answer
+
+    count = 0   # 수업을 참여하는 횟수를 카운트
+    times = 0   # 며칠 연속으로 있어야 하는지 카운트
+    idx = start_idx
+    while True:
+        if count == days:   # 수업을 다 참여했다면 while문 탈출
+            break
+        if class_info[idx]:   # 수업이 있다면 참여 횟수 1 증가
+            count += 1
+        idx = (idx + 1) % 7   # 1주일을 반복해서 검색해야 하므로 모듈러 연산
+        times += 1
+    answer = min(answer, times)
+    return
+
+
+T = int(input())
+for t in range(1, T + 1):
+    days = int(input())
+    class_info = list(map(int, input().split()))
+    answer = float('inf')
+
+    for i in range(7):   # class_info 리스트에서 1이 있으면
+        if class_info[i]:
+            find_attending_days(i)
+
+    print(f"#{t} {answer}")
+
 
 # 비트마스킹으로 구현 - 위 코드와 아래 코드의 실행 시간에 차이는 거의 없었음
 def find_attending_days(start_idx):   # 수업이 있다면 그 날부터 언제까지 참여해야 참여해야 하는 일수를 만족하는지 구한다
