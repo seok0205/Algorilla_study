@@ -1,7 +1,7 @@
 import random
 
 people = ['임연지', '유정석', '윤혜진', '김지수', '김동규', '김가현']
-problems = ['2930. 힙', '1210. Ladder2', '13038. 교환학생']
+problems = ['1197. 최소 스패닝 트리', '2606. 바이러스', '2644. 촌수계산', '2667. 단지 번호 붙이기', '11724. 연결 요소의 개수']
 
 random.shuffle(people)
 random.shuffle(problems)
