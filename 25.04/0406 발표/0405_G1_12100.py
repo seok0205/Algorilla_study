@@ -13,8 +13,8 @@ nxn 크기 보드에서 하는 게임. 이 게임에서 한 번의 이동은 보
 블록의 값은 2보다 크거나 같고, 1024보다 작거나 같은 2의 제곱꼴. 블록은 적어도 하나 주어짐.
 '''
 
-import sys
-sys.stdin = open('tc.txt', 'r')
+# import sys
+# sys.stdin = open('tc.txt', 'r')
 
 def func(board):
     board_copy = [i[:] for i in board]
