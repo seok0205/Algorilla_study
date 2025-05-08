@@ -19,7 +19,6 @@ def dfs(i, j, s, cnt):
             continue
         if visited[nr][nc]:
             continue
-        
         # 'ㅗ'모양 처리
         # 깊이가 2일때 현재 위치에서 한번더 dfs를 들어가준다.
         if cnt == 2:
